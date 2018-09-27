@@ -1,0 +1,30 @@
+Step 1
+Installing Certbot
+
+- Add repo
+
+sudo add-apt-repository ppa:certbot/certbot
+
+- update repo
+
+sudo apt update 
+
+- install certbot Nginx package
+
+sudo apt-get install python-certbot-nginx
+
+
+Step 2
+
+- configuring nginx server block
+Add DNS name at server_name in nginx server block at /etc/nginx/sites-available 
+
+- restart nginx service
+
+Step 3 
+
+- obtaining ssl certificate
+
+sudo certbot --nginx -d <dns name>
+
+!!!!Work Done!!!!

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#Delete-objects-from-s3-when-limit-crossed
+
+arr1=( $(aws s3 ls s3://ahladh | awk '{ print $2 }') )
+#Take list of objects name into array(i.e arr1)
+
+arr1_size=`echo ${#arr1[@]}`
+#Take size of array into variable
+
+diff=`expr $arr1_size - 10`
+#Here difference is found to get how many objects are there greater than 10
+
+
+if [ $arr1_size -gt 10 ]
+then
+counter=`expr $diff - 1 `
+#we calculate  counter as array index start from 0
+
+for i in ` seq 0 $counter `;
+do
+        var=`echo ${arr1[$i]}`;
+        aws s3 rm --recursive s3://ahladh/$var
+
+done
+fi
+echo $arr1_size

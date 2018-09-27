@@ -1,0 +1,21 @@
+﻿Script for changing Hostname
+
+
+
+
+#!/bin/bash
+
+
+hname=`hostname`;
+/*current hostname is taken into a variable*/
+echo "enter new hostname";
+read new_hostname;
+
+
+sed -i "s|$hname|$new_hostname|g" /etc/hostname;
+sed -i "s|$hname|$new_hostname|g" /etc/hosts;
+/*To replace the hostname in configuration file*/
+
+
+sudo hostname $new_hostname;
+/*to make the new hostname effective*/

@@ -1,0 +1,24 @@
+
+#backup-contents-to-s3bucket
+
+#!/bin/bash
+
+folder_name=`date +%m-%d-%y-%T-%Z`
+#Assign folder name with current time stamp
+
+sudo tar -cvf ./test.tar -C /var/lib/docker/volumes/jenkinsvolume4/_data .
+#taring the contents 
+# ./test.tar is the destination of the tar file
+
+# -C option is used to avid tarring the contents without parent directory and path should follow a #name(i.e .) here where contents are tared in present directory 
+
+#  /var/lib/docker/volumes/jenkinsvolume4/_data is the source path 
+
+aws s3api put-object --bucket ahladh --key "$folder_name"/
+#Create an object in s3 bucket  
+
+aws s3 cp /home/ubuntu/test.tar s3://ahladh/$folder_name/
+# Copy contents to S3 bucket
+
+rm -f /home/ubuntu/test.tar
+#Remove the tar file locally

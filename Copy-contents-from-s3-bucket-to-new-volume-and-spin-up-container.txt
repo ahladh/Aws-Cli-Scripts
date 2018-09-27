@@ -1,0 +1,19 @@
+#!/bin/bash
+
+aws s3 cp s3://ahladh/09-27-18-14:45:01-UTC  ./dir1 --recursive
+#Here we are downloading the files from s3 bucket 
+
+docker volume create new
+#Create a new volume
+
+mount_point=`docker volume inspect new | jq ' .[].Mountpoint ' | sed 's/"//g'`
+#Assign mount point of new volume to a variable
+
+sudo tar -xvf dir1/test.tar -C $mount_point
+#untar the downloaded contents to the new volume mount point 
+
+rm -r /home/ubuntu/dir/*
+#remove tar file where we downloaded the contents 
+
+docker run -d  -p 8080:8080  -v new:/var/jenkins_home jenkins
+#Command to spin up a new container with new volume with backup configuration

@@ -1,0 +1,1 @@
+ aws ec2 describe-volumes --region eu-west-2 --filters Name=status,Values=available |  jq '.[] | .[].VolumeId' | sed 's/"//g'

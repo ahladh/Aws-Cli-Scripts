@@ -17,7 +17,7 @@ while getopts u:p:t:m:cqh options; do
                 u) user=$OPTARG
                    ;;
 		c) aws iam create-user --user-name $user
-                   aws iam create-login-profile --user-name $user --password Welcome2ggk --password-reset-required
+                   aws iam create-login-profile --user-name $user --password 12345678 --password-reset-required
                    ;;
 		p) temp_array=$(echo $OPTARG  | sed 's/,/ /g')
                    policy_array=($temp_array)

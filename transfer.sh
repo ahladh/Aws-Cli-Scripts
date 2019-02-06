@@ -27,22 +27,32 @@ while getopts a:i:hu options; do
 	   #Get ami associated sanpshot_id 
            snapshot_id=$(aws ec2 describe-images --image-ids $image_id   | jq -r ' .Images| .[] | .BlockDeviceMappings | .[].Ebs| .SnapshotId  ')
 		;;
-	h) usage 
+	h) usage
+            exit 0 
 		;;
 	u) usage 
+            exit 0
 		;;
 	?) echo"You are doing it wrong, try transfer -h to know the usage";
+            exit 0
                 ;; 
 	esac
 done
+
+
 
 if [ -z "$account_id"  ] || [ -z "$image_id"  ]
 then
       echo "Insufficent variables "
 else
-#To provide lauch access for another account . 
+   transfer
+fi
+
+
+
+transfer(){
+#To provide lauch access for another account .
 aws ec2 modify-image-attribute --image-id $image_id --launch-permission "Add=[{UserId=$account_id}]"
 #To provide create volume permission for ami associated sanpshot
 aws ec2 modify-snapshot-attribute --snapshot-id $snapshot_id --attribute createVolumePermission --operation-type add --user-ids $account_id
-fi
-
+}
